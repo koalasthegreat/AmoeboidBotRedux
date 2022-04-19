@@ -1,0 +1,221 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../AllPrintings.sqlite"
+}
+
+model cards {
+  id                       Int                     @id @default(autoincrement())
+  artist                   String?
+  asciiName                String?
+  availability             String?
+  borderColor              String?
+  cardKingdomEtchedId      String?
+  cardKingdomFoilId        String?
+  cardKingdomId            String?
+  cardParts                String?
+  colorIdentity            String?
+  colorIndicator           String?
+  colors                   String?
+  convertedManaCost        Float?
+  duelDeck                 String?
+  edhrecRank               Int?
+  faceConvertedManaCost    Float?
+  faceFlavorName           String?
+  faceManaValue            Float?
+  faceName                 String?
+  finishes                 String?
+  flavorName               String?
+  flavorText               String?
+  frameEffects             String?
+  frameVersion             String?
+  hand                     String?
+  hasAlternativeDeckLimit  Int                     @default(0)
+  hasContentWarning        Int                     @default(0)
+  hasFoil                  Int                     @default(0)
+  hasNonFoil               Int                     @default(0)
+  isAlternative            Int                     @default(0)
+  isFullArt                Int                     @default(0)
+  isFunny                  Int                     @default(0)
+  isOnlineOnly             Int                     @default(0)
+  isOversized              Int                     @default(0)
+  isPromo                  Int                     @default(0)
+  isRebalanced             Int                     @default(0)
+  isReprint                Int                     @default(0)
+  isReserved               Int                     @default(0)
+  isStarter                Int                     @default(0)
+  isStorySpotlight         Int                     @default(0)
+  isTextless               Int                     @default(0)
+  isTimeshifted            Int                     @default(0)
+  keywords                 String?
+  layout                   String?
+  leadershipSkills         String?
+  life                     String?
+  loyalty                  String?
+  manaCost                 String?
+  manaValue                Float?
+  mcmId                    String?
+  mcmMetaId                String?
+  mtgArenaId               String?
+  mtgjsonV4Id              String?
+  mtgoFoilId               String?
+  mtgoId                   String?
+  multiverseId             String?
+  name                     String?
+  number                   String?
+  originalPrintings        String?
+  originalReleaseDate      String?
+  originalText             String?
+  originalType             String?
+  otherFaceIds             String?
+  power                    String?
+  printings                String?
+  promoTypes               String?
+  purchaseUrls             String?
+  rarity                   String?
+  rebalancedPrintings      String?
+  scryfallId               String?
+  scryfallIllustrationId   String?
+  scryfallOracleId         String?
+  securityStamp            String?
+  setCode                  String?
+  side                     String?
+  signature                String?
+  subtypes                 String?
+  supertypes               String?
+  tcgplayerEtchedProductId String?
+  tcgplayerProductId       String?
+  text                     String?
+  toughness                String?
+  type                     String?
+  types                    String?
+  uuid                     String       @unique(map: "sqlite_autoindex_cards_1")
+  variations               String?
+  watermark                String?
+  foreign_data             foreign_data[]
+  legalities               legalities[]
+  rulings                  rulings[]
+}
+
+model foreign_data {
+  id           Int                      @id @default(autoincrement())
+  flavorText   String?
+  language     String?
+  multiverseid Int?
+  name         String?
+  text         String?
+  type         String?
+  uuid         String?
+  cards        cards?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+}
+
+model legalities {
+  id     Int                      @id @default(autoincrement())
+  format String?
+  status String?
+  uuid   String?
+  cards  cards?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+}
+
+model meta {
+  id      Int       @id @default(autoincrement())
+  date    DateTime?
+  version String?
+}
+
+model rulings {
+  id    Int                      @id @default(autoincrement())
+  date  DateTime?
+  text  String?
+  uuid  String?
+  cards cards?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+}
+
+model set_translations {
+  id          Int                     @id @default(autoincrement())
+  language    String?
+  setCode     String?
+  translation String?
+  sets        sets?                   @relation(fields: [setCode], references: [code], onDelete: Cascade)
+}
+
+model sets {
+  id               Int                    @id @default(autoincrement())
+  baseSetSize      Int?
+  block            String?
+  booster          String?
+  code             String                 @unique(map: "sqlite_autoindex_sets_1")
+  isFoilOnly       Int                    @default(0)
+  isForeignOnly    Int                    @default(0)
+  isNonFoilOnly    Int                    @default(0)
+  isOnlineOnly     Int                    @default(0)
+  isPartialPreview Int                    @default(0)
+  keyruneCode      String?
+  mcmId            Int?
+  mcmIdExtras      Int?
+  mcmName          String?
+  mtgoCode         String?
+  name             String?
+  parentCode       String?
+  releaseDate      DateTime?
+  sealedProduct    String?
+  tcgplayerGroupId Int?
+  totalSetSize     Int?
+  type             String?
+  set_translations set_translations[]
+}
+
+model tokens {
+  id                     Int                     @id @default(autoincrement())
+  artist                 String?
+  asciiName              String?
+  availability           String?
+  borderColor            String?
+  colorIdentity          String?
+  colors                 String?
+  edhrecRank             Int?
+  faceName               String?
+  finishes               String?
+  flavorText             String?
+  frameEffects           String?
+  frameVersion           String?
+  hasFoil                Int                     @default(0)
+  hasNonFoil             Int                     @default(0)
+  isFullArt              Int                     @default(0)
+  isFunny                Int                     @default(0)
+  isPromo                Int                     @default(0)
+  isReprint              Int                     @default(0)
+  keywords               String?
+  layout                 String?
+  mcmId                  String?
+  mtgArenaId             String?
+  mtgjsonV4Id            String?
+  multiverseId           String?
+  name                   String?
+  number                 String?
+  originalText           String?
+  originalType           String?
+  otherFaceIds           String?
+  power                  String?
+  promoTypes             String?
+  reverseRelated         String?
+  scryfallId             String?
+  scryfallIllustrationId String?
+  scryfallOracleId       String?
+  securityStamp          String?
+  setCode                String?
+  side                   String?
+  signature              String?
+  subtypes               String?
+  supertypes             String?
+  tcgplayerProductId     String?
+  text                   String?
+  toughness              String?
+  type                   String?
+  types                  String?
+  uuid                   String
+  watermark              String?
+}
