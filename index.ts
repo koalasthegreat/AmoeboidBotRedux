@@ -1,5 +1,14 @@
+import { Client } from "discord.js";
+import "dotenv/config"
+
 import { getRuling } from "./src/cards";
 
-const ruling = getRuling("Opalescence");
+const client = new Client({
+  intents: []
+});
 
-ruling.then((val) => console.log(val));
+client.login(process.env.DISCORD_TOKEN);
+
+client.on('ready', (d) => {
+  console.log("Client logged into Discord as " + client.user?.username + "#" + client.user?.discriminator);
+});
