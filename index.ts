@@ -1,23 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { getRuling } from "./src/cards";
 
-const prisma = new PrismaClient();
+const ruling = getRuling("Opalescence");
 
-async function main() {
-  const result = await prisma.cards.findFirst({
-    where: {
-      name: "Amoeboid Changeling"
-    },
-    select: {
-      colors: true,
-      manaCost: true,
-      types: true
-    }
-  });
-
-  console.log(result);
-}
-
-main()
-  .catch((e) => {
-    throw e;
-  });
+ruling.then((val) => console.log(val));
