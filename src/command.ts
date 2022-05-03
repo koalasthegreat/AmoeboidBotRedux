@@ -10,7 +10,8 @@ export const setupCommands = async () => {
 	const guildId = '704080805080727583';
 
 	const commands = [];
-	commands.push(rawCommands.echo.toJSON());
+	commands.push(rawCommands.echoCommand.toJSON());
+	commands.push(rawCommands.cardCommand.toJSON());
 
 	const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN || "");
 
@@ -36,5 +37,11 @@ export const parseCommands = async (command: CommandInteraction) => {
 		const input = command.options.getString('input');
 
 		await command.reply(input || "No input supplied");
+	}
+	else if (command.commandName === "card") {
+		const name = command.options.getString('name');
+		const set = command.options.getString('set');
+
+		await command.reply(`The name was ${name} and the set was ${set}`);
 	}
 };
