@@ -1,6 +1,7 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { CommandInteraction } from "discord.js";
+import { getCard } from "./cards";
 
 import * as rawCommands from "./commands";
 
@@ -39,9 +40,17 @@ export const parseCommands = async (command: CommandInteraction) => {
 		await command.reply(input || "No input supplied");
 	}
 	else if (command.commandName === "card") {
-		const name = command.options.getString('name');
-		const set = command.options.getString('set');
+		const name = command.options.getString('name') || "";
+		const params = {
+			setCode: command.options.getString('set')?.toUpperCase() || undefined,
+			artist: command.options.getString('artist') || undefined,
+			isAlternative: command.options.getBoolean('alternative') || undefined,
+			isFullArt: command.options.getBoolean('full_art') || undefined
+		}
 
-		await command.reply(`The name was ${name} and the set was ${set}`);
+		const card = await getCard(name, params);
+		console.log(card);
+
+		await command.reply(`Received request`);
 	}
 };
