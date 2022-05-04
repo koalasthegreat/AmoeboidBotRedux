@@ -7,7 +7,7 @@ datasource db {
   url      = "file:../AllPrintings.sqlite"
 }
 
-model cards {
+model Card {
   id                       Int                     @id @default(autoincrement())
   artist                   String?
   asciiName                String?
@@ -95,12 +95,13 @@ model cards {
   uuid                     String       @unique(map: "sqlite_autoindex_cards_1")
   variations               String?
   watermark                String?
-  foreign_data             foreign_data[]
-  legalities               legalities[]
-  rulings                  rulings[]
+  foreign_data             Foreign_Data[]
+  legalities               Legality[]
+  rulings                  Ruling[]
+  @@map("cards")
 }
 
-model foreign_data {
+model Foreign_Data {
   id           Int                      @id @default(autoincrement())
   flavorText   String?
   language     String?
@@ -109,40 +110,45 @@ model foreign_data {
   text         String?
   type         String?
   uuid         String?
-  cards        cards?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+  cards        Card?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+  @@map("foreign_data")
 }
 
-model legalities {
+model Legality {
   id     Int                      @id @default(autoincrement())
   format String?
   status String?
   uuid   String?
-  cards  cards?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+  cards  Card?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+  @@map("legalities")
 }
 
-model meta {
+model Meta {
   id      Int       @id @default(autoincrement())
   date    DateTime?
   version String?
+  @@map("meta")
 }
 
-model rulings {
+model Ruling {
   id    Int                      @id @default(autoincrement())
   date  DateTime?
   text  String?
   uuid  String?
-  cards cards?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+  cards Card?                   @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+  @@map("rulings")
 }
 
-model set_translations {
+model Set_Translation {
   id          Int                     @id @default(autoincrement())
   language    String?
   setCode     String?
   translation String?
-  sets        sets?                   @relation(fields: [setCode], references: [code], onDelete: Cascade)
+  sets        Set?                   @relation(fields: [setCode], references: [code], onDelete: Cascade)
+  @@map("set_translations")
 }
 
-model sets {
+model Set {
   id               Int                    @id @default(autoincrement())
   baseSetSize      Int?
   block            String?
@@ -165,10 +171,11 @@ model sets {
   tcgplayerGroupId Int?
   totalSetSize     Int?
   type             String?
-  set_translations set_translations[]
+  set_translations Set_Translation[]
+  @@map("sets")
 }
 
-model tokens {
+model Token {
   id                     Int                     @id @default(autoincrement())
   artist                 String?
   asciiName              String?
@@ -218,4 +225,5 @@ model tokens {
   types                  String?
   uuid                   String
   watermark              String?
+  @@map("tokens")
 }
