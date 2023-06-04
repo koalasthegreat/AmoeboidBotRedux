@@ -252,6 +252,11 @@ safe-buffer@~5.2.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
+scryfall-sdk@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/scryfall-sdk/-/scryfall-sdk-4.1.1.tgz#9a538564bb790216feca795ac617898c7b60a865"
+  integrity sha512-XVCxvO0X8Bav6v4Rj62P58SekHiFc3cHEle79iT5jZw7nhsHK0jPkhaZoG9V0t1GdpyYet4ET131OnsMjpqEeA==
+
 streamsearch@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-1.1.0.tgz#404dd1e2247ca94af554e841a8ef0eaa238da764"
