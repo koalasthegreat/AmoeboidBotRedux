@@ -1,12 +1,7 @@
-import { ApplicationCommandOption } from "discord.js"
+import { SlashCommandBuilder } from "discord.js"
 
 export interface Command {
-  data: {
-    name: string,
-    description: string,
-    type?: number,
-    options?: ApplicationCommandOption[]
-  },
+  data: SlashCommandBuilder
   permissions?: string[],
 
   run(...args: any[]): any
