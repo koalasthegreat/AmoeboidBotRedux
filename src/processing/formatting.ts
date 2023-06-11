@@ -1,5 +1,5 @@
 import { ColorResolvable } from "discord.js"
-import { Card, Legalities, Legality,  } from "scryfall-sdk"
+import { Card } from "scryfall-sdk"
 
 export const getColorIdentity = (card: Card): ColorResolvable => {
   const colors = card.color_identity;
