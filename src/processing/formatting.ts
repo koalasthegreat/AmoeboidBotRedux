@@ -1,5 +1,5 @@
 import { ColorResolvable } from "discord.js"
-import { Card } from "scryfall-sdk"
+import { Card, CardFace } from "scryfall-sdk"
 
 export const getColorIdentity = (card: Card): ColorResolvable => {
   const colors = card.color_identity;
@@ -44,4 +44,43 @@ export const getLegalityString = (card: Card): string => {
     Pauper: ${mapLegality(legalities.pauper)}
     Commander: ${mapLegality(legalities.commander)}
   `;
-}
+};
+
+export const getFormattedDescription = (card: Card): string => {
+  const getFormattedText = (card: Card | CardFace): string => {
+    if (card.getText()) {
+      return `${card.getText()}`;
+    }
+    return "";
+  };
+
+  const getFormattedFlavor = (card: Card | CardFace): string => {
+    if (card.flavor_text) {
+      return `\n\n*${card.flavor_text}*`;
+    }
+    return "";
+  };
+
+  const getSingleFacedDescription = (card: Card): string => {
+    return `${getFormattedText(card)}${getFormattedFlavor(card)}`;
+  };
+
+  const getDoubleFacedDescription = (card: Card): string => {
+    const [first, second] = card.card_faces;
+
+    const firstDescription = `${getFormattedText(first)}${getFormattedFlavor(first)}`;
+    const secondDescription = `${getFormattedText(second)}${getFormattedFlavor(second)}`;
+
+    return `${firstDescription}\n\n-----\n\n${secondDescription}`;
+  };
+
+  switch(card.layout) {
+    case "double_faced_token":
+    case "double_sided":
+    case "flip":
+    case "modal_dfc":
+    case "split":
+    case "transform": return getDoubleFacedDescription(card);
+    default: return getSingleFacedDescription(card);
+  }
+};
