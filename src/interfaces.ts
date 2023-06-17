@@ -6,3 +6,11 @@ export interface Command {
 
   run(...args: any[]): any
 }
+
+export interface HTTPError {
+  object: string;
+  code: string;
+  status: 404;
+  details: string;
+  attempts: number;
+}
