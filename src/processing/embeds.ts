@@ -13,6 +13,10 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     .setColor(getColorIdentity(card))
     .addFields({ name: "Legalities", value: getLegalityString(card) });
 
+  if (card.image_uris?.normal) {
+    embed.setImage(`${card.getImageURI("normal")}`);
+  }
+  
   if (card.mana_cost) {
     embed.addFields({ name: "Cost", value: `${card.getCost()}` });
   }
