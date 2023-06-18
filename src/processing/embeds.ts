@@ -15,5 +15,9 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     .setColor(colorIdentity)
     .addFields({ name: "Legalities", value: getLegalityString(card) });
 
+  if (card.mana_cost) {
+    embed.addFields({ name: "Cost", value: `${card.getCost()}` });
+  }
+
   return embed;
 };
