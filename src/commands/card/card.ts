@@ -27,6 +27,8 @@ export default {
       if (err.status === 404) {
         interaction.reply(`Card with name \`${cardName}\` not found.`);
       } else {
+        console.log("Something unexpected went wrong:", err);
+
         interaction.reply(
           `Something went wrong with your request, please try again later.`
         );
