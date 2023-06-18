@@ -19,5 +19,13 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     embed.addFields({ name: "Cost", value: `${card.getCost()}` });
   }
 
+  if (card.power && card.toughness) {
+    embed.addFields({ name: "Stats", value: `${card.power}/${card.toughness}` });
+  }
+
+  if (card.loyalty) {
+    embed.addFields({ name: "Loyalty", value: `${card.loyalty}` });
+  }
+
   return embed;
 };
