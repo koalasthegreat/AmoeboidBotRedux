@@ -14,21 +14,25 @@ export const GUILD_ID = process.env.GUILD_ID || "";
 
 // Create Client
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds]
+  intents: [GatewayIntentBits.Guilds],
 });
 
 // Events
-readdirSync("./src/events").forEach(file => client.on(file.split(".")[0], async (...args) => (await import(`./events/${file}`)).default(client, ...args)));
+readdirSync("./src/events").forEach((file) =>
+  client.on(file.split(".")[0], async (...args) =>
+    (await import(`./events/${file}`)).default(client, ...args)
+  )
+);
 
 // Set Commands
-readdirSync("./src/commands").forEach(cat => {
-  readdirSync(`./src/commands/${cat}`).forEach(async file => {
+readdirSync("./src/commands").forEach((cat) => {
+  readdirSync(`./src/commands/${cat}`).forEach(async (file) => {
     const command = (await import(`./commands/${cat}/${file}`)).default;
 
-    if(!command || !command?.data?.name) return;
+    if (!command || !command?.data?.name) return;
 
     client.commands.set(command.data.name, command);
-  })
-})
+  });
+});
 
 client.login(TOKEN);

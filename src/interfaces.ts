@@ -1,10 +1,10 @@
-import { SlashCommandBuilder } from "discord.js"
+import { SlashCommandBuilder } from "discord.js";
 
 export interface Command {
-  data: SlashCommandBuilder
-  permissions?: string[],
+  data: SlashCommandBuilder;
+  permissions?: string[];
 
-  run(...args: any[]): any
+  run(...args: any[]): any;
 }
 
 export interface HTTPError {

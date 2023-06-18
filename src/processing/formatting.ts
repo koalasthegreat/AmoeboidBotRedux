@@ -1,5 +1,5 @@
-import { ColorResolvable } from "discord.js"
-import { Card, CardFace } from "scryfall-sdk"
+import { ColorResolvable } from "discord.js";
+import { Card, CardFace } from "scryfall-sdk";
 
 export const getColorIdentity = (card: Card): ColorResolvable => {
   const colors = card.color_identity;
@@ -8,31 +8,42 @@ export const getColorIdentity = (card: Card): ColorResolvable => {
   if (colors.length > 1) {
     return 0xcfb53b;
   }
-  
+
   const color = colors[0];
 
   switch (color) {
-    case "W": return 0xe6e7e8;
-    case "U": return 0x55acee;
-    case "B": return 0x31373d;
-    case "R": return 0xdd2e44;
-    case "G": return 0x78b159;
-    default: return 0x646566;
-  };
+    case "W":
+      return 0xe6e7e8;
+    case "U":
+      return 0x55acee;
+    case "B":
+      return 0x31373d;
+    case "R":
+      return 0xdd2e44;
+    case "G":
+      return 0x78b159;
+    default:
+      return 0x646566;
+  }
 };
 
 export const getLegalityString = (card: Card): string => {
-  const mapLegality = (legality: "legal" | "not_legal" | "restricted" | "banned"): string => {  
+  const mapLegality = (
+    legality: "legal" | "not_legal" | "restricted" | "banned"
+  ): string => {
     switch (legality) {
-      case "not_legal": return "🔴";
-      case "restricted": return "🟡";
-      case "banned": return "❌";
-      default: return "🟢";
-    };
-  }
+      case "not_legal":
+        return "🔴";
+      case "restricted":
+        return "🟡";
+      case "banned":
+        return "❌";
+      default:
+        return "🟢";
+    }
+  };
 
   const legalities = card.legalities;
-
 
   // TODO: Implement loading these from .env or some config
   return `
@@ -74,13 +85,15 @@ export const getFormattedDescription = (card: Card): string => {
     return `${firstDescription}\n\n-----\n\n${secondDescription}`;
   };
 
-  switch(card.layout) {
+  switch (card.layout) {
     case "double_faced_token":
     case "double_sided":
     case "flip":
     case "modal_dfc":
     case "split":
-    case "transform": return getDoubleFacedDescription(card);
-    default: return getSingleFacedDescription(card);
+    case "transform":
+      return getDoubleFacedDescription(card);
+    default:
+      return getSingleFacedDescription(card);
   }
 };

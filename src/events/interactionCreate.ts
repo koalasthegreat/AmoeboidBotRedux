@@ -11,7 +11,8 @@ export default (client: Client, interaction: CommandInteraction): void => {
   try {
     command.run(client, interaction);
   } catch (e) {
-    if (interaction.replied) interaction.followUp("Something went wrong while running command.");
+    if (interaction.replied)
+      interaction.followUp("Something went wrong while running command.");
     else interaction.reply("Something went wrong while running command.");
   }
 };
