@@ -7,12 +7,10 @@ import {
 } from "./formatting";
 
 export const createCardEmbed = (card: Card): EmbedBuilder => {
-  const colorIdentity = getColorIdentity(card);
-
   const embed = new EmbedBuilder()
     .setTitle(card.name)
     .setDescription(getFormattedDescription(card))
-    .setColor(colorIdentity)
+    .setColor(getColorIdentity(card))
     .addFields({ name: "Legalities", value: getLegalityString(card) });
 
   if (card.mana_cost) {
@@ -20,7 +18,10 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
   }
 
   if (card.power && card.toughness) {
-    embed.addFields({ name: "Stats", value: `${card.power}/${card.toughness}` });
+    embed.addFields({
+      name: "Stats",
+      value: `${card.power}/${card.toughness}`,
+    });
   }
 
   if (card.loyalty) {
