@@ -11,10 +11,17 @@ dotenv.config();
 
 export const TOKEN = process.env.DISCORD_TOKEN || "";
 export const GUILD_ID = process.env.GUILD_ID || "";
+export const LEFT_WRAP = process.env.LEFT_WRAP || "";
+export const RIGHT_WRAP = process.env.RIGHT_WRAP || "";
+
 
 // Create Client
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ],
 });
 
 // Events
