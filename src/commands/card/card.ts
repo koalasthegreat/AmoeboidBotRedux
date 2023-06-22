@@ -3,6 +3,7 @@ import { Card, Cards } from "scryfall-sdk";
 import Client from "src/classes/client";
 import { Command, HTTPError } from "src/interfaces";
 import { createCardEmbed } from "../../processing/embeds";
+import { ratelimit } from "../../bot";
 
 export default {
   data: new SlashCommandBuilder()
@@ -16,7 +17,7 @@ export default {
     const cardName = <string>interaction.options.get("name")?.value || "";
 
     try {
-      const card: Card = await Cards.byName(cardName);
+      const card: Card = await ratelimit(() => Cards.byName(cardName));
 
       const embed = createCardEmbed(card);
 
