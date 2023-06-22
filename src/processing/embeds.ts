@@ -34,3 +34,13 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
 
   return embed;
 };
+
+export const createMultiCardEmbeds = (cards: Card[]): EmbedBuilder[] => {
+  const embeds: EmbedBuilder[] = cards.map((card) => new EmbedBuilder()
+    .setURL("https://scryfall.com/").setImage(card.image_uris?.normal || "")
+  );
+
+  embeds[0].setTitle(`Found ${cards.length} cards:`);
+
+  return embeds;
+}
