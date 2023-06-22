@@ -24,8 +24,5 @@ export default async (client: Client, message: Message) => {
 
       message.reply({ embeds });
     }
-
-    // TODO: Implement getting more than one card this way
-    // TODO: Prevent fetching more than 10 cards to prevent spam
   }
 };

@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { LEFT_WRAP, RIGHT_WRAP } from "../bot";
 import { Card, Cards } from "scryfall-sdk";
+import { ratelimit } from "../bot";
 
 export const extractCardsFromMessage = async (message: Message): Promise<Card[]> => {
   const escape = (string: string): string => {
@@ -11,7 +12,12 @@ export const extractCardsFromMessage = async (message: Message): Promise<Card[]>
 
   const results = [...message.content.matchAll(wrapRegex)];
 
-  const cards: Card[] = await Promise.all(results.map(async (match) => Cards.byName(match[1])));
+  // TODO: find a cleaner way to let the user know 10 cards is too many
+  if (results.length >= 10) {
+    return [];
+  }
+
+  const cards: Card[] = await Promise.all(results.map(async (match) => ratelimit(() => Cards.byName(match[1]))));
 
   return cards;
 };

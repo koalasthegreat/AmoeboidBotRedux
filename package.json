@@ -10,6 +10,7 @@
     "axios": "^1.4.0",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
+    "p-ratelimit": "^1.0.1",
     "scryfall-sdk": "^4.1.1"
   },
   "devDependencies": {
