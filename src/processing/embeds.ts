@@ -44,3 +44,12 @@ export const createMultiCardEmbeds = (cards: Card[]): EmbedBuilder[] => {
 
   return embeds;
 }
+
+export const createArtEmbed = (card: Card): EmbedBuilder => {
+  const embed = new EmbedBuilder()
+    .setTitle(`${card.name} — ${card.set.toUpperCase()}`)
+    .setImage(`${card.image_uris?.art_crop}`)
+    .setFooter({ text: `${card.artist || ""} — ™ and © Wizards of the Coast` })
+
+  return embed;
+}
