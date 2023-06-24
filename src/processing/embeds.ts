@@ -12,7 +12,8 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     .setDescription(getFormattedDescription(card))
     .setURL(`${card.scryfall_uri}`)
     .setColor(getColorIdentity(card))
-    .addFields({ name: "Legalities", value: getLegalityString(card) });
+    .addFields({ name: "Legalities", value: getLegalityString(card) })
+    .addFields({ name: "Type", value: card.type_line });
 
   if (card.image_uris?.normal) {
     embed.setImage(`${card.getImageURI("normal")}`);
