@@ -1,6 +1,7 @@
 import { EmbedBuilder } from "discord.js";
 import { Card } from "scryfall-sdk";
 import {
+  formatPrices,
   getColorIdentity,
   getFormattedDescription,
   getLegalityString,
@@ -12,7 +13,8 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     .setDescription(getFormattedDescription(card))
     .setURL(`${card.scryfall_uri}`)
     .setColor(getColorIdentity(card))
-    .addFields({ name: "Legalities", value: getLegalityString(card) })
+    .addFields({ name: "Prices", value: formatPrices(card), inline: true })
+    .addFields({ name: "Legalities", value: getLegalityString(card), inline: true })
     .addFields({ name: "Type", value: card.type_line });
 
   if (card.image_uris?.normal) {
@@ -20,18 +22,19 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
   }
   
   if (card.mana_cost) {
-    embed.addFields({ name: "Cost", value: `${card.getCost()}` });
+    embed.addFields({ name: "Cost", value: `${card.getCost()}`, inline: true });
   }
 
   if (card.power && card.toughness) {
     embed.addFields({
       name: "Stats",
       value: `${card.power}/${card.toughness}`,
+      inline: true
     });
   }
 
   if (card.loyalty) {
-    embed.addFields({ name: "Loyalty", value: `${card.loyalty}` });
+    embed.addFields({ name: "Loyalty", value: `${card.loyalty}`, inline: true });
   }
 
   return embed;

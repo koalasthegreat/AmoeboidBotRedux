@@ -97,3 +97,11 @@ export const getFormattedDescription = (card: Card): string => {
       return getSingleFacedDescription(card);
   }
 };
+
+export const formatPrices = (card: Card): string => {
+  const prices = card.prices;
+
+  const priceString = `Nonfoil: ${prices.usd} USD\nFoil: ${prices.usd_foil} USD`;
+
+  return priceString;
+};
