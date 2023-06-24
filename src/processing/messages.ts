@@ -17,7 +17,7 @@ export const extractCardsFromMessage = async (message: Message): Promise<Card[]>
     return [];
   }
 
-  const cards: Card[] = await Promise.all(results.map(async (match) => ratelimit(() => Cards.byName(match[1]))));
+  const cards: Card[] = await Promise.all(results.map(async (match) => ratelimit(() => Cards.byName(match[1], true))));
 
   return cards;
 };

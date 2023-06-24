@@ -17,7 +17,7 @@ export default {
     const cardName = <string>interaction.options.get("name")?.value || "";
 
     try {
-      const card: Card = await ratelimit(() => Cards.byName(cardName));
+      const card: Card = await ratelimit(() => Cards.byName(cardName, true));
 
       const embed = createCardEmbed(card);
 

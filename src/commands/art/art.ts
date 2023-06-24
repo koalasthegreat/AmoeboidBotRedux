@@ -21,7 +21,7 @@ export default {
     const setCode = <string>interaction.options.get("set")?.value || undefined;
     
     try {
-      const card = await ratelimit(() => Cards.byName(cardName, setCode));
+      const card = await ratelimit(() => Cards.byName(cardName, setCode, true));
 
       const embed = createArtEmbed(card);
 
