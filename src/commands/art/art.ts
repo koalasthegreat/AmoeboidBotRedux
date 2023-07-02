@@ -21,7 +21,7 @@ export default {
     const cardName = <string>interaction.options.get("name")?.value || "";
     const setCode = <string>interaction.options.get("set")?.value || undefined;
     
-    const maybeCard = await ScryfallAPI.byName(cardName, setCode, true);
+    const maybeCard = await ScryfallAPI.byName(cardName, setCode);
 
     return pipe(
       maybeCard,
