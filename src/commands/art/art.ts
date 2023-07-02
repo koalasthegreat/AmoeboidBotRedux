@@ -23,24 +23,14 @@ export default {
     
     const maybeCard = await ScryfallAPI.byName(cardName, setCode, true);
 
-    pipe(
+    return pipe(
       maybeCard,
       either.fold(
-        (error) => {
-          if (error.status === 404) {
-            interaction.reply(`Card with name \`${cardName}\` not found.`);
-          } else {
-            console.log("Something unexpected went wrong:", error);
-    
-            interaction.reply(
-              `Something went wrong with your request, please try again later.`
-            );
-          }
-        },
+        (error) => interaction.reply(`Something went wrong: \`${error.details}\``),
         (card) => {
           const embed = createArtEmbed(card);
 
-          interaction.reply({ embeds: [embed] });
+          return interaction.reply({ embeds: [embed] });
         }
       )
     );
