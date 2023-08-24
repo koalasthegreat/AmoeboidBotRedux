@@ -1,7 +1,8 @@
 import { Message } from "discord.js";
 import { LEFT_WRAP, RIGHT_WRAP } from "../bot";
-import { Card, Cards } from "scryfall-sdk";
-import { ratelimit } from "../bot";
+import { Card } from "scryfall-sdk";
+import { ScryfallAPI } from "../classes/scryfall";
+import { isRight } from "fp-ts/lib/Either";
 
 export const extractCardsFromMessage = async (message: Message): Promise<Card[]> => {
   const escape = (string: string): string => {
@@ -17,7 +18,9 @@ export const extractCardsFromMessage = async (message: Message): Promise<Card[]>
     return [];
   }
 
-  const cards: Card[] = await Promise.all(results.map(async (match) => ratelimit(() => Cards.byName(match[1], true))));
+  const maybeCards = await Promise.all(results.map(async (match) => ScryfallAPI.byName(match[1])));
+
+  const cards = maybeCards.filter(isRight).map((card) => card.right);
 
   return cards;
 };
