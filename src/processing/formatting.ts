@@ -101,7 +101,11 @@ export const getFormattedDescription = (card: Card): string => {
 export const formatPrices = (card: Card): string => {
   const prices = card.prices;
 
-  const priceString = `Nonfoil: ${prices.usd} USD\nFoil: ${prices.usd_foil} USD`;
+  const nonfoil = prices.usd ? `${prices.usd} USD` : "N/A";
+  const foil = prices.usd_foil ? `${prices.usd_foil} USD` : "N/A";
+
+
+  const priceString = `Nonfoil: ${nonfoil}\nFoil: ${foil}`;
 
   return priceString;
 };
