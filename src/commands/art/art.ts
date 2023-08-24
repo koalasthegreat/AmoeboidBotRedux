@@ -1,9 +1,10 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import Client from "src/classes/client";
 import { Command, HTTPError } from "../../interfaces";
-import { ratelimit } from "../../bot";
-import { Cards } from "scryfall-sdk";
 import { createArtEmbed } from "../../processing/embeds";
+import { ScryfallAPI } from "../../classes/scryfall";
+import { either } from "fp-ts";
+import { pipe } from "fp-ts/lib/function";
 
 export default {
   data: new SlashCommandBuilder()
@@ -20,24 +21,18 @@ export default {
     const cardName = <string>interaction.options.get("name")?.value || "";
     const setCode = <string>interaction.options.get("set")?.value || undefined;
     
-    try {
-      const card = await ratelimit(() => Cards.byName(cardName, setCode, true));
+    const maybeCard = await ScryfallAPI.byName(cardName, setCode);
 
-      const embed = createArtEmbed(card);
+    return pipe(
+      maybeCard,
+      either.fold(
+        (error) => interaction.reply(`Something went wrong: \`${error.details}\``),
+        (card) => {
+          const embed = createArtEmbed(card);
 
-      interaction.reply({ embeds: [embed] });
-    } catch (error) {
-      const err = error as HTTPError;
-
-      if (err.status === 404) {
-        interaction.reply(`Card with name \`${cardName}\` not found.`);
-      } else {
-        console.log("Something unexpected went wrong:", err);
-
-        interaction.reply(
-          `Something went wrong with your request, please try again later.`
-        );
-      }
-    }
+          return interaction.reply({ embeds: [embed] });
+        }
+      )
+    );
   }
 } as Command
