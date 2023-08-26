@@ -6,6 +6,7 @@ import {
   getFormattedDescription,
   getLegalityString,
 } from "./formatting";
+import { doubleFacedLayouts } from "../interfaces";
 
 export const createCardEmbed = (card: Card): EmbedBuilder => {
   const embed = new EmbedBuilder()
@@ -41,9 +42,25 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
 };
 
 export const createMultiCardEmbeds = (cards: Card[]): EmbedBuilder[] => {
-  const embeds: EmbedBuilder[] = cards.map((card) => new EmbedBuilder()
-    .setURL("https://scryfall.com/").setImage(card.image_uris?.normal || "")
-  );
+  const embeds: EmbedBuilder[] = [];
+
+  cards.forEach((card) => {    
+    if (doubleFacedLayouts.find((layout) => layout === card.layout)) {
+      const [face1, face2] = card.card_faces;
+
+      embeds.push(new EmbedBuilder()
+        .setURL("https://scryfall.com/")
+        .setImage(face1.image_uris?.normal || ""));
+
+      embeds.push(new EmbedBuilder()
+        .setURL("https://scryfall.com/")
+        .setImage(face2.image_uris?.normal || ""));
+    } else {
+      embeds.push(new EmbedBuilder()
+        .setURL("https://scryfall.com/")
+        .setImage(card.image_uris?.normal || ""));
+    }
+  });
 
   embeds[0].setTitle(`Found ${cards.length} cards:`);
 
