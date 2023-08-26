@@ -18,8 +18,20 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     .addFields({ name: "Legalities", value: getLegalityString(card), inline: true })
     .addFields({ name: "Type", value: card.type_line });
 
-  if (card.image_uris?.normal) {
-    embed.setImage(`${card.getImageURI("normal")}`);
+
+  if (doubleFacedLayouts.find((layout) => layout === card.layout)) {
+    // TODO: Make the images appear side by side, instead of just
+    // jamming it in the thumbnail
+    const [face1, face2] = card.card_faces;
+
+    if (face1.image_uris?.normal && face2.image_uris?.normal) {
+      embed.setImage(`${face1.getImageURI("normal")}`);
+      embed.setThumbnail(`${face2.getImageURI("normal")}`);
+    }
+  } else {
+    if (card.image_uris?.normal) {
+      embed.setImage(`${card.getImageURI("normal")}`);
+    }
   }
   
   if (card.mana_cost) {
