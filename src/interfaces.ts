@@ -14,3 +14,12 @@ export interface HTTPError {
   details: string;
   attempts: number;
 }
+
+export const doubleFacedLayouts = [
+  "double_faced_token",
+  "double_sided",
+  "flip",
+  "modal_dfc",
+  "split",
+  "transform"
+];
