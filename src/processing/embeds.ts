@@ -18,7 +18,6 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     .addFields({ name: "Legalities", value: getLegalityString(card), inline: true })
     .addFields({ name: "Type", value: card.type_line });
 
-
   if (doubleFacedLayouts.find((layout) => layout === card.layout)) {
     // TODO: Make the images appear side by side, instead of just
     // jamming it in the thumbnail
@@ -48,6 +47,10 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
 
   if (card.loyalty) {
     embed.addFields({ name: "Loyalty", value: `${card.loyalty}`, inline: true });
+  }
+
+  if (card.reserved) {
+    embed.setFooter({ text: "Part of the Reserved List" })
   }
 
   return embed;
