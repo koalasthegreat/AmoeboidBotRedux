@@ -16,7 +16,8 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
     .setColor(getColorIdentity(card))
     .addFields({ name: "Prices", value: formatPrices(card), inline: true })
     .addFields({ name: "Legalities", value: getLegalityString(card), inline: true })
-    .addFields({ name: "Type", value: card.type_line });
+    .addFields({ name: "Type", value: card.type_line })
+    .addFields({ name: "Set", value: `[${card.set.toUpperCase()}] ${card.set_name}` });
 
   if (doubleFacedLayouts.find((layout) => layout === card.layout)) {
     // TODO: Make the images appear side by side, instead of just
