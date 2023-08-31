@@ -4,7 +4,7 @@ import { ServerSettings } from "../../settings/settings";
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("setWrapping")
+    .setName("wrapping")
     .setDescription("Set the card detection wrapping for this server")
     .addStringOption((option) =>
       option.setName("left").setDescription("Left symbol").setRequired(true)
