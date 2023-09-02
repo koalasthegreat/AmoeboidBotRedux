@@ -1,15 +1,30 @@
 import { Message } from "discord.js";
 import Client from "../classes/client";
-import { LEFT_WRAP, RIGHT_WRAP } from "../bot";
+import { DEFAULT_LEFT_WRAP, DEFAULT_RIGHT_WRAP } from "../bot";
 import { extractCardsFromMessage } from "../processing/messages";
 import { Card } from "scryfall-sdk";
 import { createCardEmbed, createMultiCardEmbeds } from "../processing/embeds";
+import { fold, some } from "fp-ts/lib/Option";
+import { ServerSettings } from "../settings/settings";
+import { pipe } from "fp-ts/lib/function";
 
 export default async (client: Client, message: Message) => {
   if (message.author === client.user || message.author.bot) return;
 
-  if (message.content.includes(LEFT_WRAP) && message.content.includes(RIGHT_WRAP)) {
-    const cards: Card[] = await extractCardsFromMessage(message);
+  const maybeWrapping = message.guild === null ?
+    some({ left: DEFAULT_LEFT_WRAP, right: DEFAULT_RIGHT_WRAP }) :
+    await ServerSettings.getWrapping(message.guild!);
+
+  const wrapping = pipe(
+    maybeWrapping,
+    fold(
+      () => ({ left: DEFAULT_LEFT_WRAP, right: DEFAULT_RIGHT_WRAP }),
+      (wrapping) => wrapping
+    )
+  );
+
+  if (message.content.includes(wrapping.left) && message.content.includes(wrapping.right)) {
+    const cards: Card[] = await extractCardsFromMessage(message, wrapping);
 
     if (cards.length === 0) return;
 
