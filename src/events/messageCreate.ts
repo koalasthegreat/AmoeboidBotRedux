@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import Client from "../classes/client";
-import { LEFT_WRAP, RIGHT_WRAP } from "../bot";
+import { DEFAULT_LEFT_WRAP, DEFAULT_RIGHT_WRAP } from "../bot";
 import { extractCardsFromMessage } from "../processing/messages";
 import { Card } from "scryfall-sdk";
 import { createCardEmbed, createMultiCardEmbeds } from "../processing/embeds";
@@ -12,13 +12,13 @@ export default async (client: Client, message: Message) => {
   if (message.author === client.user || message.author.bot) return;
 
   const maybeWrapping = message.guild === null ?
-    some({ left: LEFT_WRAP, right: RIGHT_WRAP }) :
+    some({ left: DEFAULT_LEFT_WRAP, right: DEFAULT_RIGHT_WRAP }) :
     await ServerSettings.getWrapping(message.guild!);
 
   const wrapping = pipe(
     maybeWrapping,
     fold(
-      () => ({ left: LEFT_WRAP, right: RIGHT_WRAP }),
+      () => ({ left: DEFAULT_LEFT_WRAP, right: DEFAULT_RIGHT_WRAP }),
       (wrapping) => wrapping
     )
   );

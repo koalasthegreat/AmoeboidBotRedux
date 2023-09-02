@@ -12,8 +12,8 @@ dotenv.config();
 
 export const TOKEN = process.env.DISCORD_TOKEN || "";
 export const GUILD_ID = process.env.GUILD_ID || "";
-export const LEFT_WRAP = process.env.LEFT_WRAP || "";
-export const RIGHT_WRAP = process.env.RIGHT_WRAP || "";
+export const DEFAULT_LEFT_WRAP = process.env.DEFAULT_LEFT_WRAP || "";
+export const DEFAULT_RIGHT_WRAP = process.env.DEFAULT_RIGHT_WRAP || "";
 
 // Init Ratelimit
 export const ratelimit = pRateLimit({
