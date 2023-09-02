@@ -1,15 +1,14 @@
 import { Message } from "discord.js";
-import { LEFT_WRAP, RIGHT_WRAP } from "../bot";
 import { Card } from "scryfall-sdk";
 import { ScryfallAPI } from "../classes/scryfall";
 import { isRight } from "fp-ts/lib/Either";
 
-export const extractCardsFromMessage = async (message: Message): Promise<Card[]> => {
+export const extractCardsFromMessage = async (message: Message, wrapping: { left: string, right: string }): Promise<Card[]> => {
   const escape = (string: string): string => {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   };
 
-  const wrapRegex = new RegExp(`${escape(LEFT_WRAP)}(.*?)${escape(RIGHT_WRAP)}`, 'g');
+  const wrapRegex = new RegExp(`${escape(wrapping.left)}(.*?)${escape(wrapping.right)}`, 'g');
 
   const results = [...message.content.matchAll(wrapRegex)];
 
