@@ -12,12 +12,16 @@ export default {
     .setDescription("Fetches a card")
     .addStringOption((option) =>
       option.setName("name").setDescription("The card name").setRequired(true)
+    )
+    .addStringOption((option) => 
+      option.setName("set").setDescription("The card's set").setRequired(false)
     ),
 
   run: async (client: Client, interaction: CommandInteraction) => {
     const cardName = <string>interaction.options.get("name")?.value || "";
+    const setCode = <string>interaction.options.get("set")?.value || undefined;
 
-    const maybeCard = await ScryfallAPI.byName(cardName);
+    const maybeCard = await ScryfallAPI.byName(cardName, setCode);
 
     return pipe(
       maybeCard,
