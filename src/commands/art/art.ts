@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { AutocompleteInteraction, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import Client from "src/classes/client";
 import { Command, HTTPError } from "../../interfaces";
 import { createArtEmbed } from "../../processing/embeds";
@@ -11,11 +11,23 @@ export default {
     .setName("art")
     .setDescription("Fetch a card's art")
     .addStringOption((option) => 
-      option.setName("name").setDescription("The card's name").setRequired(true)
+      option.setName("name").setDescription("The card's name").setRequired(true).setAutocomplete(true)
     )
     .addStringOption((option) => 
       option.setName("set").setDescription("Set symbol").setRequired(false)
     ),
+
+    autocomplete: async (interaction: AutocompleteInteraction) => {
+      const focusedValue = interaction.options.getFocused();
+
+      if (focusedValue === "") return [];
+
+      const autocompleteValues = await ScryfallAPI.autocomplete(focusedValue);
+  
+      const autocomplete = autocompleteValues.map((v) => ({ name: v, value: v }))
+  
+      await interaction.respond(autocomplete);
+    },
 
   run: async (client: Client, interaction: CommandInteraction) => {
     const cardName = <string>interaction.options.get("name")?.value || "";

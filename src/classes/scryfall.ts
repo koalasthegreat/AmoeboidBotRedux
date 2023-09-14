@@ -16,4 +16,10 @@ export abstract class ScryfallAPI {
       return either.left(err);
     }
   }
+
+  public static async autocomplete(name: string) {
+    const result = await Cards.autoCompleteName(name);
+
+    return result;
+  }
 }

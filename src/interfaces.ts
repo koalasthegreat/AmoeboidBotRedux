@@ -1,9 +1,10 @@
-import { SlashCommandBuilder } from "discord.js";
+import { AutocompleteInteraction, SlashCommandBuilder } from "discord.js";
 
 export interface Command {
   data: SlashCommandBuilder;
   permissions?: string[];
 
+  autocomplete(interaction: AutocompleteInteraction): any
   run(...args: any[]): any;
 }
 
