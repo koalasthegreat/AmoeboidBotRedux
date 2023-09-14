@@ -19,6 +19,9 @@ export default {
 
     autocomplete: async (interaction: AutocompleteInteraction) => {
       const focusedValue = interaction.options.getFocused();
+
+      if (focusedValue === "") return [];
+
       const autocompleteValues = await ScryfallAPI.autocomplete(focusedValue);
   
       const autocomplete = autocompleteValues.map((v) => ({ name: v, value: v }))
