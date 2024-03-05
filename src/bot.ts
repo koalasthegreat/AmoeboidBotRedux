@@ -27,7 +27,7 @@ export const ratelimit = pRateLimit({
 // Status Updating
 setInterval(
   async () => updateRandomStatus(client),
-  (60 * STATUS_UPDATE_DELAY)
+  (60000 * STATUS_UPDATE_DELAY)
 )
 
 // Create Client
