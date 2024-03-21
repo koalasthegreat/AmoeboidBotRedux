@@ -17,13 +17,13 @@ export abstract class ScryfallAPI {
     }
   }
 
-  public static async rulings(name: string): Promise<Either<HTTPError, Ruling[]>> {
+  public static async rulings(name: string): Promise<Either<HTTPError, { card: Card, rulings: Ruling[] }>> {
     try {
       const card = await ratelimit(() => Cards.byName(name, true));
 
       const rulings = await ratelimit(() => card.getRulings());
 
-      return either.right(rulings);
+      return either.right({ card, rulings });
     } catch (error) {
       const err = error as HTTPError;
 
