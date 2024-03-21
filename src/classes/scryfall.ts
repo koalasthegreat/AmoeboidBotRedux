@@ -1,4 +1,4 @@
-import { Card, Cards } from "scryfall-sdk";
+import { Card, Cards, Ruling } from "scryfall-sdk";
 import { ratelimit } from "../bot";
 import { either } from "fp-ts";
 import { HTTPError } from "src/interfaces";
@@ -10,6 +10,20 @@ export abstract class ScryfallAPI {
       const card = await ratelimit(() => Cards.byName(name, set, fuzzy));
 
       return either.right(card);
+    } catch (error) {
+      const err = error as HTTPError;
+
+      return either.left(err);
+    }
+  }
+
+  public static async rulings(name: string): Promise<Either<HTTPError, Ruling[]>> {
+    try {
+      const card = await ratelimit(() => Cards.byName(name, true));
+
+      const rulings = await ratelimit(() => card.getRulings());
+
+      return either.right(rulings);
     } catch (error) {
       const err = error as HTTPError;
 
