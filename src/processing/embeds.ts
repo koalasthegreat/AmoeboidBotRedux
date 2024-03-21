@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { Card } from "scryfall-sdk";
+import { Card, Ruling } from "scryfall-sdk";
 import {
   formatPrices,
   getColorIdentity,
@@ -89,6 +89,19 @@ export const createArtEmbed = (card: Card): EmbedBuilder => {
     .setURL(`${card.scryfall_uri}`)
     .setImage(`${card.image_uris?.art_crop}`)
     .setFooter({ text: `${card.artist || ""} — ™ and © Wizards of the Coast` })
+
+  return embed;
+}
+
+export const createRulingsEmbed = (card: Card, rulings: Ruling[]): EmbedBuilder => {
+  const embed = new EmbedBuilder()
+    .setTitle(`Rulings for ${card.name}`)
+    .setURL(`${card.scryfall_uri}`)
+    .setDescription(
+      rulings
+        .map((ruling) => `**${ruling.published_at}**: ${ruling.comment}\n\n`)
+        .reduce((rulingString, curr) => rulingString + curr)
+    );
 
   return embed;
 }
