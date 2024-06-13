@@ -1,4 +1,5 @@
 import { AutocompleteInteraction, SlashCommandBuilder } from "discord.js";
+import { Card } from "scryfall-sdk";
 
 export interface Command {
   data: SlashCommandBuilder;
@@ -14,6 +15,12 @@ export interface HTTPError {
   status: 404;
   details: string;
   attempts: number;
+}
+
+export interface CachedCard {
+  query: string;
+  lastQueried: Date;
+  card: Card;
 }
 
 export const doubleFacedLayouts = [
