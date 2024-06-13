@@ -15,3 +15,10 @@ model Settings {
   left  String
   right String
 }
+
+model CachedCard {
+  id          String @id
+  query       String
+  lastQueried DateTime
+  card        String
+}
