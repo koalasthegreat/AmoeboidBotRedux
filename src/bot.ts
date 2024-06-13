@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import Client from "./classes/client";
 import { pRateLimit } from "p-ratelimit";
 import { updateRandomStatus } from "./status/status";
+import { PrismaClient } from "@prisma/client";
 
 console.log("Bot is starting...");
 
@@ -29,6 +30,9 @@ setInterval(
   async () => updateRandomStatus(client),
   (60000 * STATUS_UPDATE_DELAY)
 )
+
+// Create Prisma Client
+export const prisma = new PrismaClient();
 
 // Create Client
 const client = new Client({

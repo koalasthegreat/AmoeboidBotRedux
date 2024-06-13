@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { Guild } from "discord.js";
 import { Option, none, some } from "fp-ts/lib/Option";
-
-const prisma = new PrismaClient();
+import { prisma } from "../bot";
 
 export abstract class ServerSettings {
   public static async setWrapping(guild: Guild, left: string, right: string): Promise<void> {
