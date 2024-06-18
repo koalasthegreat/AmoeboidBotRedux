@@ -17,8 +17,7 @@ model Settings {
 }
 
 model CachedCard {
-  id          Int @id @default(autoincrement())
-  query       String
+  query       String @id
   lastQueried DateTime
   card        String
 }
