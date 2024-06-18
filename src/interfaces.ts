@@ -20,7 +20,7 @@ export interface HTTPError {
 export interface CachedCard {
   query: string;
   lastQueried: Date;
-  card: Card;
+  card: string;
 }
 
 export const doubleFacedLayouts = [
