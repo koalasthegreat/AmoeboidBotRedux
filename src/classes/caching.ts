@@ -13,13 +13,13 @@ export abstract class ScryfallAPICache {
       where: {
         query,
         lastQueried: {
-          lte: yesterday
+          gte: yesterday
         }
       }
     });
 
     if (getCachedCard) {
-      const card: Card = JSON.parse(getCachedCard.card);
+      const card: Card = Card.construct(JSON.parse(getCachedCard.card));
 
       return some(card);
     }
