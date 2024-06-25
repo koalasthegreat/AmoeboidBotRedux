@@ -5,6 +5,7 @@ import { createCardEmbed } from "../../processing/embeds";
 import { ScryfallAPI } from "../../classes/scryfall";
 import { pipe } from "fp-ts/lib/function";
 import { either } from "fp-ts";
+import { ScryfallAPICache } from "../../classes/caching";
 
 export default {
   data: new SlashCommandBuilder()
@@ -29,7 +30,7 @@ export default {
   run: async (client: Client, interaction: CommandInteraction) => {
     const cardName = <string>interaction.options.get("name")?.value || "";
 
-    const maybeCard = await ScryfallAPI.byName(cardName);
+    const maybeCard = await ScryfallAPICache.getCachedCardOrFetchByName(cardName);
 
     return pipe(
       maybeCard,
