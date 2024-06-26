@@ -79,8 +79,12 @@ export const getFormattedDescription = (card: Card): string => {
   const getDoubleFacedDescription = (card: Card): string => {
     const [first, second] = card.card_faces;
 
-    const firstDescription = `${getFormattedText(first)}${getFormattedFlavor(first)}`;
-    const secondDescription = `${getFormattedText(second)}${getFormattedFlavor(second)}`;
+    const firstDescription = `${getFormattedText(first)}${getFormattedFlavor(
+      first
+    )}`;
+    const secondDescription = `${getFormattedText(second)}${getFormattedFlavor(
+      second
+    )}`;
 
     return `${firstDescription}\n\n-----\n\n${secondDescription}`;
   };
@@ -103,7 +107,6 @@ export const formatPrices = (card: Card): string => {
 
   const nonfoil = prices.usd ? `${prices.usd} USD` : "N/A";
   const foil = prices.usd_foil ? `${prices.usd_foil} USD` : "N/A";
-
 
   const priceString = `Nonfoil: ${nonfoil}\nFoil: ${foil}`;
 

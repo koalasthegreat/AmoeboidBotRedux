@@ -1,4 +1,8 @@
-import { AutocompleteInteraction, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  AutocompleteInteraction,
+  CommandInteraction,
+  SlashCommandBuilder,
+} from "discord.js";
 import Client from "src/classes/client";
 import { Command } from "src/interfaces";
 import { createCardEmbed } from "../../processing/embeds";
@@ -13,9 +17,13 @@ export default {
     .setName("card")
     .setDescription("Fetches a card")
     .addStringOption((option) =>
-      option.setName("name").setDescription("The card name").setRequired(true).setAutocomplete(true)
+      option
+        .setName("name")
+        .setDescription("The card name")
+        .setRequired(true)
+        .setAutocomplete(true)
     )
-    .addStringOption((option) => 
+    .addStringOption((option) =>
       option.setName("set").setDescription("Set code").setRequired(false)
     ),
 
@@ -26,7 +34,7 @@ export default {
 
     const autocompleteValues = await ScryfallAPI.autocomplete(focusedValue);
 
-    const autocomplete = autocompleteValues.map((v) => ({ name: v, value: v }))
+    const autocomplete = autocompleteValues.map((v) => ({ name: v, value: v }));
 
     await interaction.respond(autocomplete);
   },
@@ -47,7 +55,8 @@ export default {
     return pipe(
       maybeCard,
       either.fold(
-        (error) => interaction.reply(`Something went wrong: \`${error.details}\``),
+        (error) =>
+          interaction.reply(`Something went wrong: \`${error.details}\``),
         (card) => {
           const embed = createCardEmbed(card);
 

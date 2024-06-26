@@ -7,12 +7,13 @@ import { pipe } from "fp-ts/lib/function";
 import { either, option } from "fp-ts";
 import { ScryfallAPI } from "./scryfall";
 
-
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
 
 export abstract class ScryfallAPICache {
-  public static async getCachedCardOrFetchByName(query: string): Promise<Either<HTTPError, Card>> {
+  public static async getCachedCardOrFetchByName(
+    query: string
+  ): Promise<Either<HTTPError, Card>> {
     const maybeCachedCard = this.getCachedCardByName(query);
 
     return pipe(
@@ -21,17 +22,19 @@ export abstract class ScryfallAPICache {
         async () => await ScryfallAPI.byName(query),
         async (card) => either.right(card)
       )
-    )
+    );
   }
 
-  public static async getCachedCardByName(query: string): Promise<Option<Card>> {
+  public static async getCachedCardByName(
+    query: string
+  ): Promise<Option<Card>> {
     const getCachedCard = await prisma.cachedCard.findFirst({
       where: {
         query,
         lastQueried: {
-          gte: yesterday
-        }
-      }
+          gte: yesterday,
+        },
+      },
     });
 
     if (getCachedCard) {
@@ -43,10 +46,13 @@ export abstract class ScryfallAPICache {
     return none;
   }
 
-  public static async upsertCardIntoCache(card: Card, query: string): Promise<CachedCard> {
+  public static async upsertCardIntoCache(
+    card: Card,
+    query: string
+  ): Promise<CachedCard> {
     const upsertCard = await prisma.cachedCard.upsert({
       where: {
-        query
+        query,
       },
       update: {
         lastQueried: new Date(),
@@ -55,8 +61,8 @@ export abstract class ScryfallAPICache {
       create: {
         query,
         lastQueried: new Date(),
-        card: JSON.stringify(card)
-      }
+        card: JSON.stringify(card),
+      },
     });
 
     return upsertCard;

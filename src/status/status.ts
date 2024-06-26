@@ -3,8 +3,8 @@ import Client from "../classes/client";
 
 export const updateRandomStatus = async (client: Client) => {
   interface Status {
-    name: string,
-    type: ActivityType.Playing | ActivityType.Watching | ActivityType.Listening
+    name: string;
+    type: ActivityType.Playing | ActivityType.Watching | ActivityType.Listening;
   }
 
   const statuses: Status[] = [
@@ -36,7 +36,7 @@ export const updateRandomStatus = async (client: Client) => {
     { name: "to my opponent whine", type: ActivityType.Listening },
   ];
 
-  const randomStatus = statuses[Math.floor(Math.random()*statuses.length)];
+  const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
 
   client.user?.setActivity(randomStatus.name, { type: randomStatus.type });
 };

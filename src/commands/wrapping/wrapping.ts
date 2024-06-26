@@ -1,4 +1,9 @@
-import { Client, CommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import {
+  Client,
+  CommandInteraction,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
 import { Command } from "../../interfaces";
 import { ServerSettings } from "../../settings/settings";
 
@@ -23,9 +28,16 @@ export default {
     if (guild) {
       await ServerSettings.setWrapping(guild, left, right);
 
-      return interaction.reply({ content: `Server wrapping changed to \`${left} ${right}\`.`, ephemeral: true });
+      return interaction.reply({
+        content: `Server wrapping changed to \`${left} ${right}\`.`,
+        ephemeral: true,
+      });
     }
 
-    return interaction.reply({ content: "Something went wrong when trying to change the server wrapping.", ephemeral: true });
+    return interaction.reply({
+      content:
+        "Something went wrong when trying to change the server wrapping.",
+      ephemeral: true,
+    });
   },
 } as Command;

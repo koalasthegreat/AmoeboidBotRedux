@@ -1,4 +1,9 @@
-import { AutocompleteInteraction, Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  AutocompleteInteraction,
+  Client,
+  CommandInteraction,
+  SlashCommandBuilder,
+} from "discord.js";
 import { Command } from "../../interfaces";
 import { ScryfallAPI } from "../../classes/scryfall";
 import { either } from "fp-ts";
@@ -10,8 +15,12 @@ export default {
     .setName("rulings")
     .setDescription("List rulings for a card")
     .addStringOption((option) =>
-      option.setName("name").setDescription("The card name").setRequired(true).setAutocomplete(true)
-  ),
+      option
+        .setName("name")
+        .setDescription("The card name")
+        .setRequired(true)
+        .setAutocomplete(true)
+    ),
 
   autocomplete: async (interaction: AutocompleteInteraction) => {
     const focusedValue = interaction.options.getFocused();
@@ -20,7 +29,7 @@ export default {
 
     const autocompleteValues = await ScryfallAPI.autocomplete(focusedValue);
 
-    const autocomplete = autocompleteValues.map((v) => ({ name: v, value: v }))
+    const autocomplete = autocompleteValues.map((v) => ({ name: v, value: v }));
 
     await interaction.respond(autocomplete);
   },
@@ -33,17 +42,19 @@ export default {
     return pipe(
       maybeRuling,
       either.fold(
-        (error) => interaction.reply(`Something went wrong: \`${error.details}\``),
+        (error) =>
+          interaction.reply(`Something went wrong: \`${error.details}\``),
         (response) => {
           const { card, rulings } = response;
 
-          if (rulings.length == 0) return interaction.reply(`No rulings found for ${card.name}.`);
+          if (rulings.length == 0)
+            return interaction.reply(`No rulings found for ${card.name}.`);
 
           const embed = createRulingsEmbed(card, rulings);
 
           return interaction.reply({ embeds: [embed] });
         }
       )
-    )
+    );
   },
 } as Command;

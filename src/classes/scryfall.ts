@@ -6,7 +6,11 @@ import { Either } from "fp-ts/lib/Either";
 import { ScryfallAPICache } from "./caching";
 
 export abstract class ScryfallAPI {
-  public static async byName(name: string, set?: string, fuzzy: boolean = true): Promise<Either<HTTPError, Card>> {
+  public static async byName(
+    name: string,
+    set?: string,
+    fuzzy: boolean = true
+  ): Promise<Either<HTTPError, Card>> {
     try {
       const card = await ratelimit(() => Cards.byName(name, set, fuzzy));
 
@@ -20,7 +24,9 @@ export abstract class ScryfallAPI {
     }
   }
 
-  public static async rulings(name: string): Promise<Either<HTTPError, { card: Card, rulings: Ruling[] }>> {
+  public static async rulings(
+    name: string
+  ): Promise<Either<HTTPError, { card: Card; rulings: Ruling[] }>> {
     try {
       const card = await ratelimit(() => Cards.byName(name, true));
 

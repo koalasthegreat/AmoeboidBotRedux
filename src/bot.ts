@@ -16,7 +16,9 @@ export const TOKEN = process.env.DISCORD_TOKEN || "";
 export const GUILD_ID = process.env.GUILD_ID || "";
 export const DEFAULT_LEFT_WRAP = process.env.DEFAULT_LEFT_WRAP || "";
 export const DEFAULT_RIGHT_WRAP = process.env.DEFAULT_RIGHT_WRAP || "";
-export const STATUS_UPDATE_DELAY = parseInt(process.env.STATUS_UPDATE_DELAY || "15");
+export const STATUS_UPDATE_DELAY = parseInt(
+  process.env.STATUS_UPDATE_DELAY || "15"
+);
 
 // Init Ratelimit
 export const ratelimit = pRateLimit({
@@ -28,8 +30,8 @@ export const ratelimit = pRateLimit({
 // Status Updating
 setInterval(
   async () => updateRandomStatus(client),
-  (60000 * STATUS_UPDATE_DELAY)
-)
+  60000 * STATUS_UPDATE_DELAY
+);
 
 // Create Prisma Client
 export const prisma = new PrismaClient();
@@ -39,7 +41,7 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
+    GatewayIntentBits.MessageContent,
   ],
 });
 

@@ -3,12 +3,18 @@ import { Card } from "scryfall-sdk";
 import { isRight } from "fp-ts/lib/Either";
 import { ScryfallAPICache } from "../classes/caching";
 
-export const extractCardsFromMessage = async (message: Message, wrapping: { left: string, right: string }): Promise<Card[]> => {
+export const extractCardsFromMessage = async (
+  message: Message,
+  wrapping: { left: string; right: string }
+): Promise<Card[]> => {
   const escape = (string: string): string => {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   };
 
-  const wrapRegex = new RegExp(`${escape(wrapping.left)}(.*?)${escape(wrapping.right)}`, 'g');
+  const wrapRegex = new RegExp(
+    `${escape(wrapping.left)}(.*?)${escape(wrapping.right)}`,
+    "g"
+  );
 
   const results = [...message.content.matchAll(wrapRegex)];
 
@@ -17,7 +23,11 @@ export const extractCardsFromMessage = async (message: Message, wrapping: { left
     return [];
   }
 
-  const maybeCards = await Promise.all(results.map(async (match) => ScryfallAPICache.getCachedCardOrFetchByName(match[1])));
+  const maybeCards = await Promise.all(
+    results.map(async (match) =>
+      ScryfallAPICache.getCachedCardOrFetchByName(match[1])
+    )
+  );
 
   const cards = maybeCards.filter(isRight).map((card) => card.right);
 

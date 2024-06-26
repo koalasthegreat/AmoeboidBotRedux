@@ -5,7 +5,7 @@ export interface Command {
   data: SlashCommandBuilder;
   permissions?: string[];
 
-  autocomplete(interaction: AutocompleteInteraction): any
+  autocomplete(interaction: AutocompleteInteraction): any;
   run(...args: any[]): any;
 }
 
@@ -29,5 +29,5 @@ export const doubleFacedLayouts = [
   "flip",
   "modal_dfc",
   "split",
-  "transform"
+  "transform",
 ];

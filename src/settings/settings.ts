@@ -3,7 +3,11 @@ import { Option, none, some } from "fp-ts/lib/Option";
 import { prisma } from "../bot";
 
 export abstract class ServerSettings {
-  public static async setWrapping(guild: Guild, left: string, right: string): Promise<void> {
+  public static async setWrapping(
+    guild: Guild,
+    left: string,
+    right: string
+  ): Promise<void> {
     const setWrap = await prisma.settings.upsert({
       where: {
         id: guild.id,
@@ -16,15 +20,17 @@ export abstract class ServerSettings {
         id: guild.id,
         left,
         right,
-      }
+      },
     });
   }
 
-  public static async getWrapping(guild: Guild): Promise<Option<{ left: string, right: string }>> {
+  public static async getWrapping(
+    guild: Guild
+  ): Promise<Option<{ left: string; right: string }>> {
     const getWrap = await prisma.settings.findFirst({
       where: {
-        id: guild.id
-      }
+        id: guild.id,
+      },
     });
 
     if (getWrap) {
