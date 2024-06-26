@@ -4,8 +4,9 @@ import { Command } from "src/interfaces";
 import { createCardEmbed } from "../../processing/embeds";
 import { ScryfallAPI } from "../../classes/scryfall";
 import { pipe } from "fp-ts/lib/function";
-import { either } from "fp-ts";
+import { either, option } from "fp-ts";
 import { ScryfallAPICache } from "../../classes/caching";
+import { fromNullable } from "fp-ts/lib/Option";
 
 export default {
   data: new SlashCommandBuilder()
@@ -13,6 +14,9 @@ export default {
     .setDescription("Fetches a card")
     .addStringOption((option) =>
       option.setName("name").setDescription("The card name").setRequired(true).setAutocomplete(true)
+    )
+    .addStringOption((option) => 
+      option.setName("set").setDescription("The set printing").setRequired(false)
     ),
 
   autocomplete: async (interaction: AutocompleteInteraction) => {
@@ -29,8 +33,16 @@ export default {
 
   run: async (client: Client, interaction: CommandInteraction) => {
     const cardName = <string>interaction.options.get("name")?.value || "";
+    const cardSet = <string>interaction.options.get("set")?.value;
 
-    const maybeCard = await ScryfallAPICache.getCachedCardOrFetchByName(cardName);
+    const maybeCard = await pipe(
+      cardSet,
+      fromNullable,
+      option.fold(
+        async () => ScryfallAPICache.getCachedCardOrFetchByName(cardName),
+        async (set) => ScryfallAPI.byName(cardName, set)
+      )
+    );
 
     return pipe(
       maybeCard,
