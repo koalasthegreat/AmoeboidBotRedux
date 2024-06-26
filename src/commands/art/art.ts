@@ -14,7 +14,7 @@ export default {
       option.setName("name").setDescription("The card's name").setRequired(true).setAutocomplete(true)
     )
     .addStringOption((option) => 
-      option.setName("set").setDescription("Set symbol").setRequired(false)
+      option.setName("set").setDescription("Set code").setRequired(false)
     ),
 
     autocomplete: async (interaction: AutocompleteInteraction) => {

@@ -16,7 +16,7 @@ export default {
       option.setName("name").setDescription("The card name").setRequired(true).setAutocomplete(true)
     )
     .addStringOption((option) => 
-      option.setName("set").setDescription("The set printing").setRequired(false)
+      option.setName("set").setDescription("Set code").setRequired(false)
     ),
 
   autocomplete: async (interaction: AutocompleteInteraction) => {
