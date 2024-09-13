@@ -4,6 +4,7 @@ import {
   formatPrices,
   getColorIdentity,
   getFormattedDescription,
+  getFormattedManaCost,
   getLegalityString,
 } from "./formatting";
 import { doubleFacedLayouts } from "../interfaces";
@@ -42,7 +43,11 @@ export const createCardEmbed = (card: Card): EmbedBuilder => {
   }
 
   if (card.mana_cost) {
-    embed.addFields({ name: "Cost", value: `${card.getCost()}`, inline: true });
+    embed.addFields({
+      name: "Cost",
+      value: `${getFormattedManaCost(card)}`,
+      inline: true,
+    });
   }
 
   if (card.power && card.toughness) {
