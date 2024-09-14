@@ -30,8 +30,9 @@ export default async (client: Client, message: Message) => {
   ) {
     const cards: Card[] = await extractCardsFromMessage(message, wrapping);
 
-    if (cards.length === 0) return;
-    else if (cards.length === 1) {
+    if (cards.length === 0) {
+      message.reply("Could not find any cards.");
+    } else if (cards.length === 1) {
       const embed = createCardEmbed(cards[0]);
 
       message.reply({ embeds: [embed] });
