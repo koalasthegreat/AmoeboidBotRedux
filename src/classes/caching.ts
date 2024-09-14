@@ -12,14 +12,19 @@ yesterday.setDate(yesterday.getDate() - 1);
 
 export abstract class ScryfallAPICache {
   public static async getCachedCardOrFetchByName(
-    query: string
+    name: string,
+    set?: string
   ): Promise<Either<HTTPError, Card>> {
-    const maybeCachedCard = this.getCachedCardByName(query);
+    if (set) {
+      return await ScryfallAPI.byName(name, set);
+    }
+
+    const maybeCachedCard = this.getCachedCardByName(name);
 
     return pipe(
       await maybeCachedCard,
       option.fold(
-        async () => await ScryfallAPI.byName(query),
+        async () => await ScryfallAPI.byName(name),
         async (card) => either.right(card)
       )
     );

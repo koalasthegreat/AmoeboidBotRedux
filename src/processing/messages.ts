@@ -23,9 +23,26 @@ export const extractCardsFromMessage = async (
     return [];
   }
 
+  // TODO: extend this and make it support other parameters (if we end up supporting other parameters)
+  const matches = results
+    .map((val) => val[1].split(";"))
+    .map((val) => {
+      if (val.length > 1) {
+        const maybeSet = val[1].split("=");
+
+        if (maybeSet.length > 1) {
+          const set = maybeSet[1];
+
+          return { name: val[0], set };
+        }
+      }
+
+      return { name: val[0], set: "" };
+    });
+
   const maybeCards = await Promise.all(
-    results.map(async (match) =>
-      ScryfallAPICache.getCachedCardOrFetchByName(match[1])
+    matches.map(async (match) =>
+      ScryfallAPICache.getCachedCardOrFetchByName(match.name, match.set)
     )
   );
 
