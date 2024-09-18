@@ -1,6 +1,5 @@
 import { ColorResolvable } from "discord.js";
 import { Card, CardFace } from "scryfall-sdk";
-import { convertToCad } from "./currencies";
 
 export const getColorIdentity = (card: Card): ColorResolvable => {
   const colors = card.color_identity;
@@ -214,12 +213,10 @@ export const insertEmojiis = (val: string): string => {
 export const formatPrices = (card: Card): string => {
   const prices = card.prices;
 
-  const nonfoil = prices.usd ? getPriceString(prices.usd) : "N/A";
-  const foil = prices.usd_foil ? getPriceString(prices.usd_foil) : "N/A";
+  const nonfoil = prices.usd ? `${prices.usd} USD` : "N/A";
+  const foil = prices.usd_foil ? `${prices.usd_foil} USD` : "N/A";
 
-  return `Nonfoil: ${nonfoil}\nFoil: ${foil}`;
+  const priceString = `Nonfoil: ${nonfoil}\nFoil: ${foil}`;
+
+  return priceString;
 };
-
-const getPriceString = (price: string): string => {
-    return `${price} USD (${convertToCad(price)} CAD)`;
-}
