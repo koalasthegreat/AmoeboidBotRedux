@@ -30,14 +30,14 @@ export default {
 
       return interaction.reply({
         content: `Server wrapping changed to \`${left} ${right}\`.`,
-        ephemeral: true,
+        flags: ["Ephemeral"]
       });
     }
 
     return interaction.reply({
       content:
         "Something went wrong when trying to change the server wrapping.",
-      ephemeral: true,
+      flags: ["Ephemeral"]
     });
   },
 } as Command;
