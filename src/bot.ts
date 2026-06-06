@@ -1,11 +1,13 @@
 import { GatewayIntentBits } from "discord.js";
 import { readdirSync } from "fs";
 import * as dotenv from "dotenv";
+import * as Scry from "scryfall-sdk";
 
 import Client from "./classes/client";
 import { pRateLimit } from "p-ratelimit";
 import { updateRandomStatus } from "./status/status";
 import { PrismaClient } from "@prisma/client";
+import { scrypt } from "crypto";
 
 console.log("Bot is starting...");
 
@@ -62,5 +64,8 @@ readdirSync("./src/commands").forEach((cat) => {
     client.commands.set(command.data.name, command);
   });
 });
+
+// Set Scryfall API UserAgent
+Scry.setAgent("AmoeboidBot", "1.0.0");
 
 client.login(TOKEN);
