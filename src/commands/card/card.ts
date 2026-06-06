@@ -1,10 +1,10 @@
 import {
   AutocompleteInteraction,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
 } from "discord.js";
-import Client from "src/classes/client";
-import { Command } from "src/interfaces";
+import Client from "../../classes/client";
+import { Command } from "../../interfaces";
 import { createCardEmbed } from "../../processing/embeds";
 import { ScryfallAPI } from "../../classes/scryfall";
 import { pipe } from "fp-ts/lib/function";
@@ -39,9 +39,9 @@ export default {
     await interaction.respond(autocomplete);
   },
 
-  run: async (client: Client, interaction: CommandInteraction) => {
-    const cardName = <string>interaction.options.get("name")?.value || "";
-    const cardSet = <string>interaction.options.get("set")?.value;
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    const cardName = interaction.options.getString("name") || "";
+    const cardSet = interaction.options.getString("set");
 
     const maybeCard = await pipe(
       cardSet,

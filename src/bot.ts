@@ -1,13 +1,13 @@
 import { GatewayIntentBits } from "discord.js";
 import { readdirSync } from "fs";
+import { pRateLimit } from "p-ratelimit";
+import { updateRandomStatus } from "./status/status";
+import { PrismaClient } from "../prisma/generated/prisma/client";
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import * as dotenv from "dotenv";
 import * as Scry from "scryfall-sdk";
 
 import Client from "./classes/client";
-import { pRateLimit } from "p-ratelimit";
-import { updateRandomStatus } from "./status/status";
-import { PrismaClient } from "@prisma/client";
-import { scrypt } from "crypto";
 
 console.log("Bot is starting...");
 
@@ -36,7 +36,10 @@ setInterval(
 );
 
 // Create Prisma Client
-export const prisma = new PrismaClient();
+const adapter = new PrismaBetterSqlite3({
+  url: "./prisma/bot.db",
+});
+export const prisma = new PrismaClient({ adapter });
 
 // Create Client
 const client = new Client({

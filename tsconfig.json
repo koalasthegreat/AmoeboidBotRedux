@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "commonjs",
-    "rootDir": "./src/",
+    "rootDir": "./",
     "outDir": "./dist/",
     "strict": true,
     "moduleResolution": "node",
@@ -15,8 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
     "typeRoots": ["node_modules/@types"],
-    "sourceMap": false,
-    "baseUrl": "./"
+    "sourceMap": false
   },
   "files": ["src/bot.ts"],
   "include": ["./**/*.ts"],

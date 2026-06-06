@@ -1,7 +1,7 @@
 import {
   AutocompleteInteraction,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
 } from "discord.js";
 import { Command } from "../../interfaces";
@@ -34,8 +34,8 @@ export default {
     await interaction.respond(autocomplete);
   },
 
-  run: async (client: Client, interaction: CommandInteraction) => {
-    const cardName = <string>interaction.options.get("name")?.value || "";
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    const cardName = interaction.options.getString("name") || "";
 
     const maybeRuling = await ScryfallAPI.rulings(cardName);
 

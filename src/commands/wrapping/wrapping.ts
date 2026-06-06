@@ -1,6 +1,6 @@
 import {
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from "discord.js";
@@ -20,10 +20,10 @@ export default {
     .setDMPermission(false)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
-  run: async (client: Client, interaction: CommandInteraction) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     const guild = interaction.guild;
-    const left = <string>interaction.options.get("left")?.value;
-    const right = <string>interaction.options.get("right")?.value;
+    const left = interaction.options.getString("left") || "[[";
+    const right = interaction.options.getString("right") || "]]";
 
     if (guild) {
       await ServerSettings.setWrapping(guild, left, right);

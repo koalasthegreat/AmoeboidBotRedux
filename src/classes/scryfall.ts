@@ -1,7 +1,7 @@
 import { Card, Cards, Ruling } from "scryfall-sdk";
 import { ratelimit } from "../bot";
 import { either } from "fp-ts";
-import { HTTPError } from "src/interfaces";
+import { HTTPError } from "../interfaces";
 import { Either } from "fp-ts/lib/Either";
 import { ScryfallAPICache } from "./caching";
 

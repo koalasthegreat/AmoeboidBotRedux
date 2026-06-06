@@ -4,3 +4,4 @@ node_modules
 # Prisma Database
 prisma/bot.db
 prisma/bot.db-journal
+prisma/generated
